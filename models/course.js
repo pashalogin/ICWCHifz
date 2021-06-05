@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 //const mongoosePaginate = require('mongoose-paginate');
 
 const courseSchema = new mongoose.Schema({
-    departmentName: {
-        type: String,
-        required: true
-    },
+    // departmentName: {
+    //     type: String,
+    //     required: false
+    // },
     courseName: {
         type: String,
         required: true,
@@ -43,7 +43,7 @@ const Course = mongoose.model('Course', courseSchema);
 
 function validateCourse(course) {
     const schema = {
-        departmentName: Joi.string().required().label(' Department Name '),
+        // departmentName: Joi.string().required().label(' Department Name '),
         courseName: Joi.string().required().label('Course Name'),
         courseDuration: Joi.number().required().label('Course Duration'),
         startDate: Joi.date().required().label('Course Start Date'),

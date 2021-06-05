@@ -105,20 +105,20 @@ router.post('/', [ensureAuthenticated, isAdmin], async (req, res) => {
 
 // Add Student Form Route
 router.get('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (req, res) => {
-    const dept = await Department.find();
+    // const dept = await Department.find();
 
-    if (dept) {
+    // if (dept) {
         res.render('students/add', {
             title: 'Add New Student',
             breadcrumbs: true,
-            dept: dept
+            // dept: dept
         });
-    }
+    // }
 });
 
 // Process Students Form Data And Insert Into Database.
 router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (req, res) => {
-    const dept = await Department.find();
+    // const dept = await Department.find();
 
     let errors = [];
 
@@ -133,7 +133,7 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
         res.render('students/add', {
             title: 'Add Student',
             breadcrumbs: true,
-            dept: dept,
+            // dept: dept,
             errors: errors,
             body: req.body
         });
@@ -144,16 +144,16 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
                 LastName: req.body.LastName
             },
             Gender: req.body.Gender,
-            Category: req.body.Category,
+            //Category: req.body.Category,
             DateOfBirth: req.body.DateOfBirth,
             DateOfAdmission: req.body.DateOfAdmission,
-            Religion: req.body.Religion,
+           // Religion: req.body.Religion,
             FathersName: req.body.FathersName,
-            FathersEducationalQualification: req.body.FathersEducationalQualification,
-            FathersOccupation: req.body.FathersOccupation,
+            // FathersEducationalQualification: req.body.FathersEducationalQualification,
+            // FathersOccupation: req.body.FathersOccupation,
             MothersName: req.body.MothersName,
-            MothersEducationalQualification: req.body.MothersEducationalQualification,
-            MothersOccupation: req.body.MothersOccupation,
+            // MothersEducationalQualification: req.body.MothersEducationalQualification,
+            // MothersOccupation: req.body.MothersOccupation,
             Email: req.body.Email,
             PhoneNumber: req.body.PhoneNumber,
             Address: {
@@ -163,11 +163,11 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
                 PostalCode: req.body.PostalCode,
                 Country: req.body.Country
             },
-            CourseName: req.body.CourseName,
-            BranchName: req.body.BranchName,
-            Class: req.body.ClassAdmittedTo,
-            Section: req.body.Section,
-            Session: req.body.Session,
+            // CourseName: req.body.CourseName,
+            // BranchName: req.body.BranchName,
+            // Class: req.body.ClassAdmittedTo,
+            // Section: req.body.Section,
+            // Session: req.body.Session,
             StudentId: new StudentId({
                 ClassRollNo: req.body.ClassRollNo,
                 RegistrationNo: req.body.RegistrationNo
@@ -250,16 +250,16 @@ router.put('/:id', [ensureAuthenticated, isAdmin, updateAccessControl], async (r
                 'StudentName.FirstName': req.body.FirstName,
                 'StudentName.LastName': req.body.LastName,
                 Gender: req.body.Gender,
-                Category: req.body.Category,
+                // Category: req.body.Category,
                 DateOfBirth: req.body.DateOfBirth,
                 DateOfAdmission: req.body.DateOfAdmission,
-                Religion: req.body.Religion,
+                // Religion: req.body.Religion,
                 FathersName: req.body.FathersName,
-                FathersEducationalQualification: req.body.FathersEducationalQualification,
-                FathersOccupation: req.body.FathersOccupation,
+                // FathersEducationalQualification: req.body.FathersEducationalQualification,
+                // FathersOccupation: req.body.FathersOccupation,
                 MothersName: req.body.MothersName,
-                MothersEducationalQualification: req.body.MothersEducationalQualification,
-                MothersOccupation: req.body.MothersOccupation,
+                // MothersEducationalQualification: req.body.MothersEducationalQualification,
+                // MothersOccupation: req.body.MothersOccupation,
                 Email: req.body.Email,
                 PhoneNumber: req.body.PhoneNumber,
                 'Address.Address_Line_1': req.body.Address,
@@ -267,11 +267,11 @@ router.put('/:id', [ensureAuthenticated, isAdmin, updateAccessControl], async (r
                 'Address.State': req.body.State,
                 'Address.PostalCode': req.body.PostalCode,
                 'Address.Country': req.body.Country,
-                CourseName: req.body.CourseName,
-                BranchName: req.body.BranchName,
-                Class: req.body.ClassAdmittedTo,
-                Section: req.body.Section,
-                Session: req.body.Session,
+                // CourseName: req.body.CourseName,
+                // BranchName: req.body.BranchName,
+                // Class: req.body.ClassAdmittedTo,
+                // Section: req.body.Section,
+                // Session: req.body.Session,
                 'StudentId.ClassRollNo': req.body.ClassRollNo,
                 'StudentId.RegistrationNo': req.body.RegistrationNo
             }
@@ -341,16 +341,16 @@ router.get('/faker', async (req, res) => {
                 LastName: faker.name.lastName(),
             },
             Gender: 'Male',
-            Category: 'General',
+         //   Category: 'General',
             DateOfBirth: moment(faker.date.past()).format('LL'),
             DateOfAdmission: moment(faker.date.recent()).format('LL'),
-            Religion: 'Others',
+         //   Religion: 'Others',
             FathersName: faker.name.findName(),
-            FathersEducationalQualification: faker.name.jobArea(),
-            FathersOccupation: faker.name.jobTitle(),
+          //  FathersEducationalQualification: faker.name.jobArea(),
+         //   FathersOccupation: faker.name.jobTitle(),
             MothersName: faker.name.findName(),
-            MothersEducationalQualification: faker.name.jobArea(),
-            MothersOccupation: faker.name.jobTitle(),
+         //  MothersEducationalQualification: faker.name.jobArea(),
+        //    MothersOccupation: faker.name.jobTitle(),
             Email: faker.internet.email(),
             PhoneNumber: faker.phone.phoneNumber(),
             Address: {
@@ -360,11 +360,11 @@ router.get('/faker', async (req, res) => {
                 PostalCode: faker.address.zipCode(),
                 Country: faker.address.country()
             },
-            CourseName: 'XYZ',
-            BranchName: 'XYZ',
-            Class: '1st Semester',
-            Section: 'A',
-            Session: '2013-2016',
+         //   CourseName: 'XYZ',
+         //   BranchName: 'XYZ',
+          //  Class: '1st Semester',
+          //  Section: 'A',
+          //  Session: '2013-2016',
             StudentId: new StudentId({
                 ClassRollNo: randomString.generate({
                     length: 8,
