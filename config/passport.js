@@ -21,11 +21,11 @@ module.exports = function (passport) {
                 });
             }
 
-            // if (user.request == false) {
-            //     return done(null, false, {
-            //         message: 'Your registration request has\'nt been approved yet'
-            //     });
-            // }
+            if (user.request == false) {
+                return done(null, false, {
+                    message: 'Your registration request has\'nt been approved yet'
+                });
+            }
 
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) throw err;

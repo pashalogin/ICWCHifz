@@ -87,7 +87,10 @@ router.post('/', [ensureAuthenticated, isAdmin], async (req, res) => {
     let key = req.body.searchInput;
 
     const student = await Student.find({
-        'StudentId.ClassRollNo': key
+        $or: [
+            {'StudentName.FirstName': key},
+            {'StudentName.LastName': key}
+        ]
     });
 
     if (student.length > 0) {

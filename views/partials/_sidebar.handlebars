@@ -10,9 +10,9 @@
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted">
             <span>Go to</span>
         </h6>
-        <li>
+        {{!-- <li>
             <a href="/dashboard"> Dashboard</a>
-        </li>
+        </li> --}}
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted">
             <span>Academics</span>
         </h6>
@@ -21,25 +21,25 @@
         <li>
             <a href="/students"> Students <i class="fa fa-angle-right"></i></a>
         </li>
-        <li>
+        {{!-- <li>
             <a href="/courses">Courses <i class="fa fa-angle-right"></i></a>
-        </li>
+        </li> --}}
         {{/if}}
 
-        {{#if_eq user.role "Accountant" user.isAdmin true}}
+        {{!-- {{#if_eq user.role "Accountant" user.isAdmin true}}
         <li>
             <a href="/fee-management">Fee Management <i class="fa fa-angle-right"></i></a>
         </li>
-        {{/if_eq}}
+        {{/if_eq}} --}}
 
-        {{#if_eq user.role "Teacher" user.isAdmin true}}
-        <li>
+        {{!-- {{#if_eq user.role "Teacher" user.isAdmin true}} --}}
+        {{!-- <li>
             <a href="/students">Attendance <i class="fa fa-angle-right"></i></a>
-        </li>
+        </li> --}}
         <li>
             <a href="/marks-and-grades">Marks And Grades <i class="fa fa-angle-right"></i></a>
         </li>
-        {{/if_eq}}
+        {{!-- {{/if_eq}} --}}
 
         {{#if user.isAdmin}}
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted">
@@ -48,9 +48,9 @@
         <li>
             <a href="/users">Users <i class="fa fa-angle-right"></i></a>
         </li>
-        <li>
+        {{!-- <li>
             <a href="#">Faculties <i class="fa fa-angle-right"></i></a>
-        </li>
+        </li> --}}
         {{/if}}
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted">
             <span>Action</span>
