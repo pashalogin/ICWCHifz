@@ -19,6 +19,7 @@
     "express-session": "^1.15.6",
     "express-url-breadcrumb": "0.0.8",
     "faker": "^4.1.0",
+    "heroku": "^7.54.1",
     "joi": "^13.4.0",
     "method-override": "^2.3.10",
     "moment": "^2.22.2",
@@ -31,5 +32,8 @@
     "passport-local": "^1.0.0",
     "quran": "0.0.9",
     "randomstring": "^1.1.5"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
