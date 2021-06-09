@@ -25,11 +25,21 @@ require('./config/passport')(passport);
 
 // Connecting to MongoDB...
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/student-mgmt-sys', {
-    useNewUrlParser: true
-}).then(() => console.log('Connected to MongoDB Server...')).catch(err => console.error('Error occured connecting to MongoDB...', err));
+// mongoose.connect('mongodb://localhost:27017/student-mgmt-sys', {
+//     useNewUrlParser: true
+// }).then(() => console.log('Connected to MongoDB Server...')).catch(err => console.error('Error occured connecting to MongoDB...', err));
 
+const mongoString = "mongodb://icwchifz:icwchifz@cluster0-shard-00-00.de6a0.mongodb.net:27017,cluster0-shard-00-01.de6a0.mongodb.net:27017,cluster0-shard-00-02.de6a0.mongodb.net:27017/student-mgmt-sys?ssl=true&replicaSet=atlas-4xm6wq-shard-0&authSource=admin&retryWrites=true&w=majority";
 
+mongoose.connect(mongoString, {useNewUrlParser: true})
+
+mongoose.connection.on("error", function(error) {
+  console.log(error)
+})
+
+mongoose.connection.on("open", function() {
+  console.log("Connected to MongoDB database.")
+})
 
 // Load Helpers
 const {

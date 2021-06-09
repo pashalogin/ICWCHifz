@@ -10,41 +10,65 @@ const marksAndGradesSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    QuranNewLesson: {
+    QuranNewLessonFrom: {
         type: String,
-        required: true
+        required: false
+    },
+    QuranNewLessonTo: {
+        type: String,
+        required: false
     },
     QuranNewGrade: {
         type: String,
-        required: true
+        required: false
     },
-    HomeWork: {
+    HomeWorkFrom: {
         type: String,
-        required: true
+        required: false
     },
-    ReviewLesson: {
+    HomeWorkTo: {
         type: String,
-        required: true
+        required: false
+    },
+    ReviewLessonFrom: {
+        type: String,
+        required: false
+    },
+    ReviewLessonTo: {
+        type: String,
+        required: false
     },
     ReviewGrade: {
         type: String,
-        required: true
+        required: false
     },
     Comments: {
         type: String,
-        required: true
+        required: false
     },
-    AyahQuranNewLesson: {
+    AyahQuranNewLessonFrom: {
         type: String,
-        required: true
+        required: false
     },
-    AyahReviewLesson: {
+    AyahQuranNewLessonTo: {
         type: String,
-        required: true
+        required: false
     },
-    AyahHomeWork: {
+    AyahReviewLessonFrom: {
         type: String,
-        required: true
+        required: false
+    },
+    AyahReviewLessonTo: {
+        type: String,
+        required: false
+    },
+    AyahHomeWorkFrom: {
+        type: String,
+        required: false
+    },
+    AyahHomeWorkTo: {
+        type: String,
+        required: false
     }
 });
 
@@ -54,17 +78,24 @@ function validateMarksAndGrades(marksAndGrades) {
     const schema = {
         Name: Joi.string().required(),
         DateOfWork: Joi.string().required(),
-        QuranNewLesson: Joi.string().required(),
+        QuranNewLessonFrom: Joi.string().required(),
+        QuranNewLessonTo: Joi.string().required(),
         QuranNewGrade: Joi.string().required(),
-        HomeWork: Joi.string().required(),
-        ReviewLesson: Joi.string().required(),
+        HomeWorkFrom: Joi.string().required(),
+        ReviewLessonFrom: Joi.string().required(),
+        HomeWorkTo: Joi.string().required(),
+        ReviewLessonTo: Joi.string().required(),
         ReviewGrade: Joi.string().required(),
         Comments: Joi.string().required(),
-        AyahQuranNewLesson: Joi.string().required(),
-        AyahReviewLesson: Joi.string().required(),
-        AyahHomeWork: Joi.string().required(),
+        AyahQuranNewLessonFrom: Joi.string().required(),
+        AyahQuranNewLessonTo: Joi.string().required(),
+        AyahReviewLessonFrom: Joi.string().required(),
+        AyahHomeWorkFrom: Joi.string().required(),
+        AyahReviewLessonTo: Joi.string().required(),
+        AyahHomeWorkTo: Joi.string().required(),
     };
-    return Joi.validate(marksAndGrades, schema);
+    return true;
+    // return Joi.validate(marksAndGrades, schema);
 }
 
 exports.MarksAndGrades = MarksAndGrades;

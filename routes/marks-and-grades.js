@@ -69,13 +69,16 @@ router.get('/details', [ensureAuthenticated, readAccessControl], async (req, res
 router.post('/', [ensureAuthenticated, isAdmin], async (req, res) => {
     let key = req.body.searchInput;
 
+    console.log(MarksAndGrades.find());
+
     const marksAndGrades = await MarksAndGrades.find({
         'Name': key
     });
-
+    console.log("Search Input://"+key);
+    console.log("Result"+marksAndGrades);
     if (marksAndGrades.length > 0) {
         res.render('marks-and-grades/index', {
-            title: 'Marks And Grades',
+            title: 'Hifz Progress Report',
             breadcrumbs: true,
             mg_search_bar: true,
             search_bar: false,
@@ -118,13 +121,19 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
         const marksAndGrades = new MarksAndGrades({
             Name: req.body.Name,
             DateOfWork: req.body.DateOfWork,
-            QuranNewLesson: req.body.QuranNewLesson, 
-            AyahQuranNewLesson: req.body.AyahQuranNewLesson,
+            QuranNewLessonFrom: req.body.QuranNewLessonFrom, 
+            AyahQuranNewLessonFrom: req.body.AyahQuranNewLessonFrom,
+            QuranNewLessonTo: req.body.QuranNewLessonTo, 
+            AyahQuranNewLessonTo: req.body.AyahQuranNewLessonTo,
             QuranNewGrade: req.body.QuranNewGrade,
-            HomeWork: req.body.HomeWork,
-            AyahHomeWork: req.body.AyahHomeWork,
-            ReviewLesson: req.body.ReviewLesson,
-            AyahReviewLesson: req.body.AyahReviewLesson,
+            HomeWorkFrom: req.body.HomeWorkFrom,
+            AyahHomeWorkFrom: req.body.AyahHomeWorkFrom,
+            HomeWorkTo: req.body.HomeWorkTo,
+            AyahHomeWorkTo: req.body.AyahHomeWorkTo,
+            ReviewLessonFrom: req.body.ReviewLessonFrom,
+            AyahReviewLessonFrom: req.body.AyahReviewLessonFrom,
+            ReviewLessonTo: req.body.ReviewLessonTo,
+            AyahReviewLessonTo: req.body.AyahReviewLessonTo,
             ReviewGrade: req.body.ReviewGrade,
             Comments: req.body.Comments
         });
@@ -202,16 +211,26 @@ router.put('/:id', [ensureAuthenticated, isAdmin, updateAccessControl], async (r
         req.flash('error_msg', error.details[0].message);
         res.redirect(`/marks-and-grades/edit?id=${req.params.id}`);
     } else {
+        // console.log(req);
         const marksAndGrades = await MarksAndGrades.update({
             _id: req.params.id
         }, {
             $set: {
                 Name: req.body.Name,
                 DateOfWork: req.body.DateOfWork,
-                QuranNewLesson: req.body.QuranNewLesson,
+                QuranNewLessonFrom: req.body.QuranNewLessonFrom, 
+                AyahQuranNewLessonFrom: req.body.AyahQuranNewLessonFrom,
+                QuranNewLessonTo: req.body.QuranNewLessonTo, 
+                AyahQuranNewLessonTo: req.body.AyahQuranNewLessonTo,
                 QuranNewGrade: req.body.QuranNewGrade,
-                HomeWork: req.body.HomeWork,
-                ReviewLesson: req.body.ReviewLesson,
+                HomeWorkFrom: req.body.HomeWorkFrom,
+                AyahHomeWorkFrom: req.body.AyahHomeWorkFrom,
+                HomeWorkTo: req.body.HomeWorkTo,
+                AyahHomeWorkTo: req.body.AyahHomeWorkTo,
+                ReviewLessonFrom: req.body.ReviewLessonFrom,
+                AyahReviewLessonFrom: req.body.AyahReviewLessonFrom,
+                ReviewLessonTo: req.body.ReviewLessonTo,
+                AyahReviewLessonTo: req.body.AyahReviewLessonTo,
                 ReviewGrade: req.body.ReviewGrade,
                 Comments: req.body.Comments
             }
