@@ -1,16 +1,24 @@
 {{#if search_bar}}
 <form action="/students" method="POST" class="form-inline my-2 my-lg-0">
-    <input id="searchInput" name="searchInput" class="form-control mr-sm-2" style="width:600px;border-radius:0px;" type="search"
-        placeholder="Search with Student Name..." aria-label="Search">
+    <input id="searchInput" name="searchInput" class="form-control mr-sm-2" style="width:600px;border-radius:0px;"
+        type="search" placeholder="Search with Student Name..." aria-label="Search">
     <button type="submit" class="btn btn-default">
         <i class="fa fa-search fa-lg"></i>
     </button>
 </form>
 {{/if}}
 {{#if mg_search_bar}}
-<form action="/marks-and-grades" method="POST" class="form-inline my-2 my-lg-0">
-    <input id="searchInput" name="searchInput" class="form-control mr-sm-2" style="width:600px;border-radius:0px;" type="search"
-        placeholder="Search Marks And Grades with Student Name..." aria-label="Search">
+<form action="/marks-and-grades" method="POST" class="form-inline my-4 my-lg-0">
+    <label for="">Student Name   </label>
+    <select name="Name" id="chooseStudent" class="form-control custom-select">
+        <option value="">Choose...</option>
+        {{#each student}}
+        <option value="{{StudentName.FirstName}}&nbsp;{{StudentName.LastName}}">
+            {{StudentName.FirstName}}&nbsp;{{StudentName.LastName}}</option>
+        {{/each}}
+    </select>
+    {{!-- <input id="searchInput" name="searchInput" class="form-control mr-sm-2" style="width:600px;border-radius:0px;"
+        type="search" placeholder="Search Marks And Grades with Student Name..." aria-label="Search"> --}}
     <button type="submit" class="btn btn-default">
         <i class="fa fa-search fa-lg"></i>
     </button>

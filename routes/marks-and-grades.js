@@ -18,7 +18,8 @@ const {
 } = require('../models/marks-and-grades');
 
 const {
-    Student
+    Student,
+    StudentId
 } = require('../models/student');
 
 const router = express.Router();
@@ -28,16 +29,16 @@ router.get('/', [ensureAuthenticated, readAccessControl], async (req, res) => {
     const page = req.query.page || 1;
     const skip = ((perPage * page) - perPage) + 1;
     const sort = req.query.sort || "asc";
-
-    const marksAndGrade = await MarksAndGrades.find()
+    var mysort = { DateOfWork: -1 };
+    const marksAndGrade = await MarksAndGrades.find().sort(mysort)
         .skip((perPage * page) - perPage)
         .limit(perPage)
-        .sort({
-            Session: sort
-        });
+        
 
     if (marksAndGrade.length > 0) {
         const pages = await MarksAndGrades.countDocuments();
+
+        const student = await Student.find();
 
         res.render('marks-and-grades/index', {
             title: 'MarksAndGrades',
@@ -50,14 +51,16 @@ router.get('/', [ensureAuthenticated, readAccessControl], async (req, res) => {
             total: pages,
             perPage: perPage,
             skip: skip,
-            to: (marksAndGrade.length + 10)
+            to: (marksAndGrade.length + 10),
+            student: student
         });
     } else {
         res.render('marks-and-grades/index', {
             title: 'MarksAndGrades',
             breadcrumbs: true,
             mg_search_bar: true,
-            search_bar: false
+            search_bar: false,
+            student: Student
         });
     }
 });
@@ -67,22 +70,23 @@ router.get('/details', [ensureAuthenticated, readAccessControl], async (req, res
 
 // Search Marks And Grades.
 router.post('/', [ensureAuthenticated, isAdmin], async (req, res) => {
-    let key = req.body.searchInput;
+    let key = req.body.Name;
 
-    console.log(MarksAndGrades.find());
-
-    const marksAndGrades = await MarksAndGrades.find({
-        'Name': key
-    });
-    console.log("Search Input://"+key);
-    console.log("Result"+marksAndGrades);
+    const student = await Student.find();
+    // console.log(req.body);
+    var mongo = require('mongodb');
+    //const marksAndGrades = await MarksAndGrades.findById(new mongo.ObjectId("60c14625be9c4500151b6b65"));
+    var mysort = { DateOfWork: -1 };
+    const marksAndGrades = await MarksAndGrades.find({Name : key}).sort(mysort);
+    
     if (marksAndGrades.length > 0) {
         res.render('marks-and-grades/index', {
             title: 'Hifz Progress Report',
             breadcrumbs: true,
             mg_search_bar: true,
             search_bar: false,
-            marksAndGrades: marksAndGrades
+            marksAndGrades: marksAndGrades,
+            student: student
         });
     } else {
         req.flash('error_msg', 'Record not found.');
@@ -91,11 +95,11 @@ router.post('/', [ensureAuthenticated, isAdmin], async (req, res) => {
 });
 
 router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (req, res) => {
-    console.log("Entered Post /add")
+    // console.log("Entered Post /add")
 
-    console.log(req.body);
+    // console.log(req.body);
 
-    const student = await Student.find()
+    const student = await Student.find();
 
     let errors = [];
 
@@ -103,7 +107,7 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
         error
     } = validate(req.body);
 
-    console.log("error::"+error);
+    // console.log("error::"+error);
 
     if (error) {
         errors.push({
@@ -117,7 +121,7 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
             body: req.body
         });
     } else {
-        console.log("Entered in else block");
+        // console.log("Entered in else block");
         const marksAndGrades = new MarksAndGrades({
             Name: req.body.Name,
             DateOfWork: req.body.DateOfWork,
@@ -138,10 +142,10 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
             Comments: req.body.Comments
         });
         try {
-            console.log(marksAndGrades);
+            // console.log(marksAndGrades);
             const result = await marksAndGrades.save();
 
-            console.log(result);
+            // console.log(result);
 
             if (result) {
                 req.flash('success_msg', 'Information saved successfully.');
@@ -152,7 +156,7 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
                 errors.push({
                     text: ex.errors[field].message
                 });
-                console.log(ex.errors[field]);
+                // console.log(ex.errors[field]);
             }
             res.render('marks-and-grades/add', {
                 title: 'Add New Grades',
@@ -182,7 +186,7 @@ router.get('/edit', [ensureAuthenticated, isAdmin, updateAccessControl], async (
     // });
     const student = await Student.find()
 
-    console.log(req.query.id)
+    // console.log(req.query.id)
     const marksAndGrade = await MarksAndGrades.findOne({
         _id: req.query.id
     });
@@ -259,16 +263,16 @@ router.delete('/:id', [ensureAuthenticated, isAdmin, deleteAccessControl], async
 router.delete('/multiple/:id', async (req, res) => {
     let str = req.params.id;
 
-    for (i in str) {
-        console.log(i);
-    }
+    // for (i in str) {
+    //     console.log(i);
+    // }
 
     const result = await MarksAndGrades.find({
         _id: {
             $in: []
         }
     });
-    console.log(result);
+    // console.log(result);
     if (result) {
         req.flash('success_msg', 'Records deleted successfully.');
         res.send('/marks-and-grades');
