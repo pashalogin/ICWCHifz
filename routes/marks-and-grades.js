@@ -9,7 +9,7 @@ const {
     createAccessControl,
     readAccessControl,
     updateAccessControl,
-    deleteAccessControl
+    deleteAccessControl,
 } = require('../helpers/auth');
 
 const {
@@ -30,16 +30,25 @@ router.get('/', [ensureAuthenticated, readAccessControl], async (req, res) => {
     const skip = ((perPage * page) - perPage) + 1;
     const sort = req.query.sort || "asc";
     var mysort = { DateOfWork: -1 };
-    const marksAndGrade = await MarksAndGrades.find().sort(mysort)
-        .skip((perPage * page) - perPage)
-        .limit(perPage)
-        
+    var marksAndGrade;
+    
+    if(req.user.isAdmin) {
+        student = await Student.find();
+        marksAndGrade = await MarksAndGrades.find().sort(mysort)
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+    } else {
+        student = await Student.find({Email : req.user.email});
+        // let key = student[0].StudentName.FirstName + " " + student[0].StudentName.LastName;
+        // console.log(key);
+        // marksAndGrades = await MarksAndGrades.find({Name : key}).sort(mysort);
+    }
 
-    if (marksAndGrade.length > 0) {
+    if (req.user.isAdmin && marksAndGrade.length > 0) {
         const pages = await MarksAndGrades.countDocuments();
-
-        const student = await Student.find();
-
+        var student;
+        
+        // console.log(student);
         res.render('marks-and-grades/index', {
             title: 'MarksAndGrades',
             breadcrumbs: true,
@@ -60,7 +69,14 @@ router.get('/', [ensureAuthenticated, readAccessControl], async (req, res) => {
             breadcrumbs: true,
             mg_search_bar: true,
             search_bar: false,
-            student: Student
+            // marksAndGrades: marksAndGrade,
+            // current: parseInt(page),
+            // pages: Math.ceil(pages / perPage),
+            // total: pages,
+            // perPage: perPage,
+            // skip: skip,
+            // to: (marksAndGrade.length + 10),
+            student: student
         });
     }
 });
@@ -69,10 +85,15 @@ router.get('/details', [ensureAuthenticated, readAccessControl], async (req, res
 });
 
 // Search Marks And Grades.
-router.post('/', [ensureAuthenticated, isAdmin], async (req, res) => {
+router.post('/', [ensureAuthenticated], async (req, res) => {
     let key = req.body.Name;
-
-    const student = await Student.find();
+    var student;
+    
+    if(req.user.isAdmin) {
+        student = await Student.find()
+    } else {
+        student = await Student.find({Email : req.user.email});
+    }
     // console.log(req.body);
     var mongo = require('mongodb');
     //const marksAndGrades = await MarksAndGrades.findById(new mongo.ObjectId("60c14625be9c4500151b6b65"));
