@@ -192,11 +192,13 @@ router.post('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (
 
 router.get('/add', [ensureAuthenticated, isAdmin, createAccessControl], async (req, res) => {
     const student = await Student.find()
-    // console.log(student);
+    const currentDate =  moment().format('MM/DD/YYYY');
+   
     res.render('marks-and-grades/add', {
         title: 'Add New Grades',
         breadcrumbs: true,
-        student: student
+        student: student,
+        currentDate: currentDate,
     });
    
 });
